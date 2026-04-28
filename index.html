@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mellisa Postres - Repostería premium. Catálogo de productos.">
+    <title>Mellisa Postres | Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Tema Normal - Gris */
+            --bg-gradient: linear-gradient(-45deg, #e8e8e8, #d0d0d0, #f5f5f5);
+            --pink: #c9a3b5;
+            --pink-light: #d4b8c5;
+            --blue: #5a6c7a;
+            --text: #4a4a4a;
+            --glass: rgba(255, 255, 255, 0.5);
+            --glass-hover: rgba(255, 255, 255, 0.7);
+            --border: rgba(255, 255, 255, 0.8);
+            --shadow: 0 10px 25px rgba(0,0,0,0.06);
+            --cloud-opacity: 0;
+            --success: #4caf50;
+            --error: #f44336;
+        }
+
+        body[data-theme="cielos"] {
+            --bg-gradient: linear-gradient(-45deg, #a8e6ff, #d4f1ff, #e8f8ff);
+            --pink: #ff99bb;
+            --pink-light: #ffb7ce;
+            --blue: #5a9cb5;
+            --text: #4a6c7a;
+            --glass: rgba(255, 255, 255, 0.4);
+            --glass-hover: rgba(255, 255, 255, 0.6);
+            --cloud-opacity: 0.3;
+        }
+
+        body[data-theme="morado"] {
+            --bg-gradient: linear-gradient(-45deg, #e8d5f0, #d4b8e8, #f0e5f5);
+            --pink: #b388eb;
+            --pink-light: #d4a5ff;
+            --blue: #7a5a9c;
+            --text: #5a4a6c;
+            --glass: rgba(255, 255, 255, 0.45);
+            --glass-hover: rgba(255, 255, 255, 0.65);
+        }
+
+        body[data-theme="rainbow"] {
+            --bg-gradient: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffecd2, #fcb69f, #ff9a9e);
+            --pink: #ff6b9d;
+            --pink-light: #ff9ec7;
+            --blue: #6b5a7a;
+            --text: #5a4a6a;
+            --glass: rgba(255, 255, 255, 0.5);
+            --glass-hover: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: var(--text);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(ellipse 200px 100px at 20% 30%, rgba(255,255,255,var(--cloud-opacity)), transparent),
+                radial-gradient(ellipse 300px 150px at 70% 60%, rgba(255,255,255,var(--cloud-opacity)), transparent),
+                radial-gradient(ellipse 250px 120px at 40% 80%, rgba(255,255,255,var(--cloud-opacity)), transparent);
+            pointer-events: none;
+            z-index: 0;
+            opacity: var(--cloud-opacity);
+            transition: opacity 0.4s ease;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body { animation: none; }
+            .logo { animation: none; }
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .left-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: var(--text);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn:hover {
+            background: var(--glass-hover);
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--pink);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            transform-origin: top right;
+            animation: intro 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.5s backwards;
+        }
+
+        @keyframes intro {
+            0% {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                font-size: clamp(3rem, 10vw, 4.5rem);
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                position: static;
+                transform: translate(0, 0);
+            }
+        }
+
+        main {
+            margin-top: 100px;
+            width: 100%;
+            max-width: 1100px;
+            z-index: 1;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, background 0.3s ease;
+            color: var(--text);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: var(--glass-hover);
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            color: var(--pink);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .card .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .empty-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            border: 2px dashed var(--pink-light);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+            color: var(--pink-light);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .content-page {
+            text-align: center;
+            margin-top: 120px;
+            z-index: 1;
+        }
+
+        .content-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-option {
+            background: var(--glass);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .theme-option:hover {
+            background: var(--glass-hover);
+            transform: translateX(5px);
+        }
+
+        .theme-option.active {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+
+        .theme-option h3 {
+            color: var(--pink);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .theme-option p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .input-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--glass);
+            color: var(--text);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--pink);
+            background: var(--glass-hover);
+        }
+
+        .input-group input[type="file"] {
+            padding: 8px;
+        }
+
+        .verify-btn, .action-btn {
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .verify-btn:hover, .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 15px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .back-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: var(--text);
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 30px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: var(--glass-hover);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+    </style>
+</head>
+<body data-theme="normal">
+    <div class="top-bar">
+        <div class="left-buttons">
+            <button class="btn" onclick="showPage('contact')">Contact Information</button>
+            <button class="btn" onclick="showPage('settings')">Ajustes</button>
+            <button class="btn" onclick="showPage('admin')">Solo Admins</button>
+        </div>
+        <div class="logo" aria-label="Mellisa Postres">Mellisa Postres</div>
+    </div>
+
+    <!-- Página principal -->
+    <main id="home" class="page active">
+        <h1 class="sr-only">Catálogo de Mellisa Postres</h1>
+        <section class="products" id="products-container" aria-live="polite">
+            <article class="card">
+                <div class="empty-icon" aria-hidden="true">♡</div>
+                <p>El vendedor no ha publicado productos</p>
+            </article>
+        </section>
+    </main>
+
+    <!-- Página de contacto -->
+    <section id="contact" class="page content-page">
+        <div class="content-card">
+            <h2>Contáctanos</h2>
+            <p>Estamos para servirte</p>
+            <a href="https://wa.me/19152949467" target="_blank" class="whatsapp-link">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                WhatsApp U.S +1 (915) 294-9467
+            </a>
+            <br>
+            <button class="back-btn" onclick="showPage('home')">← Volver al catálogo</button>
+        </div>
+    </section>
+
+    <!-- Página de ajustes -->
+    <section id="settings" class="page content-page">
+        <div class="content-card">
+            <h2>Ajustes</h2>
+            <div class="theme-option" onclick="showPage('themes')">
+                <h3>Temas</h3>
+                <p>Cambia la apariencia de la página</p>
+            </div>
+            <button class="back-btn" onclick="showPage('home')">← Volver al catálogo</button>
+        </div>
+    </section>
+
+    <!-- Página de temas -->
+    <section id="themes" class="page content-page">
+        <div class="content-card">
+            <h2>Temas</h2>
+            <div class="theme-option active" data-theme="normal" onclick="setTheme('normal')">
+                <h3>Tema Normal</h3>
+                <p>Todo en tonos grises suaves. Menos brillo</p>
+            </div>
+            <div class="theme-option" data-theme="cielos" onclick="setTheme('cielos')">
+                <h3>Tema Cielos</h3>
+                <p>Fondo cian con nubes suaves</p>
+            </div>
+            <div class="theme-option" data-theme="morado" onclick="setTheme('morado')">
+                <h3>Tema Morado</h3>
+                <p>Todo morado y rosita pastel</p>
+            </div>
+            <div class="theme-option" data-theme="rainbow" onclick="setTheme('rainbow')">
+                <h3>Tema Multicolor</h3>
+                <p>Rosa que cambia lentamente a todos los colores rainbow</p>
+            </div>
+            <button class="back-btn" onclick="showPage('settings')">← Volver a Ajustes</button>
+        </div>
+    </section>
+
+    <!-- Página de Admin -->
+    <section id="admin" class="page content-page">
+        <div class="content-card">
+            <h2>Solo Admins</h2>
+            <div id="admin-login">
+                <div class="input-group">
+                    <label for="admin-code">¿Quién eres? Ingresa el código:</label>
+                    <input type="password" id="admin-code" placeholder="Código de acceso">
+                </div>
+                <button class="verify-btn" onclick="verifyAdmin()">Verificar</button>
+                <div id="admin-message" class="message"></div>
+            </div>
+            
+            <div id="admin-panel" style="display: none;">
+                <h3 style="color: var(--pink); margin-bottom: 15px;">Bienvenida Melissa</h3>
+                <div class="admin-actions">
+                    <button class="action-btn" onclick="showSellProduct()">Vender Productos</button>
+                </div>
+                
+                <div id="sell-product-form" style="display: none;">
+                    <h3 style="color: var(--pink); margin: 20px 0;">Agregar Producto</h3>
+                    <div class="input-group">
+                        <label for="product-photo">Foto del producto:</label>
+                        <input type="file" id="product-photo" accept="image/*" onchange="previewImage(event)">
+                        <img id="image-preview" class="preview-img" alt="Vista previa">
+                    </div>
+                    <div class="input-group">
+                        <label for="product-name">Nombre:</label>
+                        <input type="text" id="product-name" placeholder="Ej: Pastel de Chocolate">
+                    </div>
+                    <div class="input-group">
+                        <label for="product-price">Precio:</label>
+                        <input type="number" id="product-price" placeholder="Ej: 450" step="0.01">
+                    </div>
+                    <button class="action-btn" onclick="addProduct()">Publicar Producto</button>
+                    <button class="back-btn" onclick="hideSellProduct()">Cancelar</button>
+                </div>
+                
+                <button class="back-btn" onclick="logoutAdmin()">Cerrar sesión</button>
+            </div>
+            
+            <button class="back-btn" onclick="showPage('home')" id="admin-back-btn">← Volver al catálogo</button>
+        </div>
+    </section>
+
+    <script>
+        const ADMIN_CODE = "MELISSA 12";
+        let products = JSON.parse(localStorage.getItem('mellisa-products')) || [];
+        
+        // Cargar tema guardado
+        const savedTheme = localStorage.getItem('mellisa-theme') || 'normal';
+        setTheme(savedTheme, false);
+
+        // Cargar productos al inicio
+        renderProducts();
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if (pageId !== 'admin') {
+                resetAdminPanel();
+            }
+        }
+
+        function setTheme(themeName, save = true) {
+            document.body.setAttribute('data-theme', themeName);
+            
+            document.querySelectorAll('.theme-option[data-theme]').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            const activeOption = document.querySelector(`.theme-option[data-theme="${themeName}"]`);
+            if (activeOption) activeOption.classList.add('active');
+            
+            if (save) {
+                localStorage.setItem('mellisa-theme', themeName);
+            }
+        }
+
+        function verifyAdmin() {
+            const input = document.getElementById('admin-code');
+            const message = document.getElementById('admin-message');
+            const loginDiv = document.getElementById('admin-login');
+            const panelDiv = document.getElementById('admin-panel');
+            
+            if (input.value === ADMIN_CODE) {
+                message.className = 'message success';
+                message.textContent = 'Bienvenida Melissa, estas son tus ventas';
+                message.style.display = 'block';
+                
+                setTimeout(() => {
+                    loginDiv.style.display = 'none';
+                    panelDiv.style.display = 'block';
+                    document.getElementById('admin-back-btn').style.display = 'none';
+                }, 1000);
+            } else {
+                message.className = 'message error';
+                message.textContent = 'Código incorrecto. Intenta de nuevo.';
+                message.style.display = 'block';
+                input.value = '';
+            }
+        }
+
+        function logoutAdmin() {
+            resetAdminPanel();
+        }
+
+        function resetAdminPanel() {
+            document.getElementById('admin-login').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('sell-product-form').style.display = 'none';
+            document.getElementById('admin-code').value = '';
+            document.getElementById('admin-message').style.display = 'none';
+            document.getElementById('admin-back-btn').style.display = 'inline-block';
+        }
+
+        function showSellProduct() {
+            document.getElementById('sell-product-form').style.display = 'block';
+        }
+
+        function hideSellProduct() {
+            document.getElementById('sell-product-form').style.display = 'none';
+            document.getElementById('product-photo').value = '';
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-price').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('image-preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addProduct() {
+            const name = document.getElementById('product-name').value;
+            const price = document.getElementById('product-price').value;
+            const photoInput = document.getElementById('product-photo');
+            const preview = document.getElementById('image-preview');
+            
+            if (!name || !price || !photoInput.files[0]) {
+                alert('Por favor completa foto, nombre y precio');
+                return;
+            }
+            
+            const newProduct = {
+                id: Date.now(),
+                name: name,
+                price: parseFloat(price),
+                image: preview.src
+            };
+            
+            products.push(newProduct);
+            localStorage.setItem('mellisa-products', JSON.stringify(products));
+            renderProducts();
+            hideSellProduct();
+            alert('Producto publicado con éxito');
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            
+            if (products.length === 0) {
+                container.innerHTML = `
+                    <article class="card">
+                        <div class="empty-icon" aria-hidden="true">♡</div>
+                        <p>El vendedor no ha publicado productos</p>
+                    </article>
+                `;
+                return;
+            }
+            
+            container.innerHTML = products.map(product => `
+                <article class="card">
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <div class="price">$${product.price.toFixed(2)}</div>
+                </article>
+            `).join('');
+        }
+
+        // Enter para verificar
+        document.getElementById('admin-code')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAdmin();
+            }
+        });
+
+        // Si entran con hash en la URL
+        if (window.location.hash) {
+            const page = window.location.hash.substring(1);
+            if (document.getElementById(page)) {
+                showPage(page);
+            }
+        }
+    </script>
+</body>
+</html>
